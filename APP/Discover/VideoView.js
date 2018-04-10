@@ -2,6 +2,7 @@
  * @providesModule VideoView
  */
 import React, {Component} from 'react'
+import Orientation from 'react-native-orientation';
 
 // 2.导入常用组件,注册组件,样式组件,View组件,Text组件
 import
@@ -20,12 +21,44 @@ import CommonNavigationBar from 'CommonNavigationBar'
 import CommonHighButton from  'CommonHighButton'
 
 export default class VideoView extends Component {
+    componentDidMount() {
+        // this locks the view to Portrait Mode
 
+
+    }
+
+    constructor(props){
+        super(props);
+        this.state = {
+            screenWidth:Common.screenW
+        }
+    }
+
+    componentWillMount() {
+        Orientation.lockToLandscape();
+        this.setState = {
+            screenWidth:Common.screenW
+        }
+
+    }
+
+    componentWillUnmount() {
+        Orientation.lockToPortrait();
+
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        Orientation.lockToPortrait();
+
+    }
     renderLeftBarButtonItem(){
         return (
             <CommonHighButton image='btn_backitem'
                               imageStyle={{width:25,height:25,position:'absolute',left:-30}}
                               onPress={()=>{
+                                  Orientation.lockToPortrait();
+
                                   this.props.navigator.pop();
                               }}
 
@@ -39,6 +72,7 @@ export default class VideoView extends Component {
                 <CommonNavigationBar
                     title='播放'
                     titleStyle={styles.titleStyle}
+                    barStyle={{width:this.props.screenWidth}}
                     leftBarButtonItem={this.renderLeftBarButtonItem()}
                 />
                 <Video source={{uri:this.props.videoUri}} // Looks for .mp4 file (background.mp4) in the given expansion version.

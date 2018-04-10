@@ -16,6 +16,7 @@ import {Navigator} from 'react-native-deprecated-custom-components'
 import Main from 'Main'
 import Guide from 'Guide'
 import Launch from 'Launch'
+import Orientation from 'react-native-orientation';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -50,10 +51,15 @@ export default class App extends Component<Props> {
         componentDidMount() {
             setTimeout(this.guideApp.bind(this),500)
             // this.guideApp();
+
         }
 
+    componentWillMount() {
+
+    }
+
   render() {
-    return (
+      return (
       <Navigator initialRoute={{
         component : Launch
       }}
